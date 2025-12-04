@@ -3,6 +3,8 @@ import requests
 from bs4 import BeautifulSoup
 from email import policy
 from email.parser import BytesParser
+import argparse
+
 
 def extract_links_from_text(text):
     # Basic regex for URLs
@@ -43,11 +45,16 @@ def verify_email_links(email_path):
 
     return results
 
-# Example usage
+
 if __name__ == "__main__":
-    email_file = "test_message.eml"  # path to saved email
-    results = verify_email_links(email_file)
+    parser = argparse.ArgumentParser(description="Verify links inside an email (.eml) file.")
+    parser.add_argument("email_file", help="Path to the .eml file you want to validate")
+
+    args = parser.parse_args()
+
+    results = verify_email_links(args.email_file)
 
     print("Link Validation Results:")
     for link, status in results.items():
         print(f"{link} -> {status}")
+
